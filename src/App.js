@@ -6,7 +6,7 @@ import UserRoutes from './user.routes';
 import ThemeConfig from './theme';
 // components
 import ScrollToTop from './components/ScrollToTop';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useRoutes } from 'react-router';
 
 // ----------------------------------------------------------------------
@@ -16,23 +16,21 @@ const App = () => {
   const navigate = useNavigate();
   const verifyUser = () => {
     const user = localStorage.getItem('usertype');
-    console.log('first', +user);
     if (user) {
       try {
         return user === 'admin' ? setIsAdmin(true) : setIsAdmin(false);
       } catch {
-        console.log('error');
+        console.log('error error');
       }
     } else {
-      window.location.href = 'http://localhost:3000/login';
+      console.log('loop');
+      navigate('/login', { replace: true });
     }
-    console.log('later', +user);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     verifyUser();
-    console.log('onMount');
-  }, [isAdmin]);
+  }, []);
 
   return isAdmin ? (
     <ThemeConfig>

@@ -35,7 +35,6 @@ class AddProduct extends Component {
       price: '',
       quantity: '',
       category: '',
-      users: '',
       brand: '',
       profile: '',
       vehicle: '',
@@ -43,7 +42,7 @@ class AddProduct extends Component {
       categories: [],
       brands: [],
       profiles: [],
-      vehicle: [],
+      vehicles: [],
       selectedFile: null
     };
 
@@ -52,7 +51,16 @@ class AddProduct extends Component {
     this.getAllProfiles();
     this.getAllCtegories();
     this.getAllVehicles();
-    this.getUser();
+  }
+
+  componentDidMount() {
+    let user_id = localStorage.getItem('auth');
+    if (user_id) {
+      this.setState({
+        users: user_id
+      });
+    }
+    console.log('mount' + this.state.users);
   }
 
   getAllBrands = () => {
@@ -107,18 +115,18 @@ class AddProduct extends Component {
         });
       }
       this.setState({
-        vehicle: dataVehicles
+        vehicles: dataVehicles
       });
     });
   };
 
-  getUser = () => {
-    let user_id = localStorage.getItem('auth');
-    console.log('USERSSSSS ' + user_id);
-    this.setState({
-      users: user_id
-    });
-  };
+  // getUser = () => {
+  //   console.log('mount');
+  //   let user_id = localStorage.getItem('auth');
+  //   this.setState({
+  //     users: user_id
+  //   });
+  // };
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -146,36 +154,35 @@ class AddProduct extends Component {
     content.append('profile', this.state.profile);
     content.append('vehicle', this.state.vehicle);
     content.append('sampleFile', this.state.selectedFile, this.state.selectedFile.name);
-    console.log('file', content);
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     };
-    console.log(content);
+    console.log('here' + content.users);
 
-    axios
-      .post(api.ADD_Case, content)
-      .then((res) => {
-        console.log(res);
-        this.setState({
-          size: '',
-          price: '',
-          quantity: '',
-          category: '',
-          users: '',
-          brand: '',
-          profile: '',
-          vehicle: '',
-          sampleFile: ''
-        });
-        NotificationManager.success('New matter added!', 'Successful!', 8000);
-      })
-      .catch((error) => {
-        NotificationManager.error(
-          'Network error!please make sure you are connected.',
-          'Error!',
-          8000
-        );
-      });
+    // axios
+    //   .post(api.ADDPRODUCT, content)
+    //   .then((res) => {
+    //     console.log(res);
+    //     this.setState({
+    //       size: '',
+    //       price: '',
+    //       quantity: '',
+    //       category: '',
+    //       users: '',
+    //       brand: '',
+    //       profile: '',
+    //       vehicle: '',
+    //       sampleFile: ''
+    //     });
+    //     NotificationManager.success('New Product added!', 'Successful!', 8000);
+    //   })
+    //   .catch((error) => {
+    //     NotificationManager.error(
+    //       'Network error!please make sure you are connected.',
+    //       'Error!',
+    //       8000
+    //     );
+    //   });
   };
 
   render() {
@@ -195,11 +202,11 @@ class AddProduct extends Component {
                 </Label>
                 <Input
                   style={mystyle}
-                  placeholder="Court"
+                  placeholder="Size"
                   type="text"
                   onChange={this.handleChange}
                   name="size"
-                  id="court"
+                  id="size"
                   required
                 />
               </FormGroup>
@@ -326,7 +333,7 @@ class AddProduct extends Component {
                   required
                 >
                   <option>Select Vehicle</option>
-                  {this.state.vehicle.map((fbb, label) => (
+                  {this.state.vehicles.map((fbb, label) => (
                     <option key={label} value={fbb.label}>
                       {fbb.value}
                     </option>

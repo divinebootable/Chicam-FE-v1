@@ -55,12 +55,11 @@ class Transfers extends Component {
       return {
         Quantity: transfer.quantity,
         Product: transfer.product,
-        From: transfer.transfer_from,
+        From: transfer.warehouse,
         State: transfer.transfer_state,
         TimeStamp: transfer.created_on,
         Action: (
           <div>
-            <UpdateBrand brands={brand} renderBrand={this.onRenderBrand} />
             <MDBIcon
               icon="trash-alt"
               onClick={() => this.submit(transfer)}
@@ -120,9 +119,6 @@ class Transfers extends Component {
     };
     return (
       <div className="animated fadeIn">
-        <Col sm xs="12" className=" mt-3 mb-3">
-          <AddBrand renderBrand={this.onRenderBrand} />
-        </Col>
         <Col>
           <Card>
             <NotificationContainer />
