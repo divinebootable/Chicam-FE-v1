@@ -15,77 +15,22 @@ import {
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import api from '../../../services';
-import getProducts from '../../controller/productController';
-import getUsers from '../../controller/userController';
-import axios from 'axios';
 
 const mystyle = {
   height: '30px',
   fontSize: '.70rem'
 };
 
-class AddTransfer extends Component {
+class AddExpense extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
-      quantity: '',
-      product: '',
-      transfer_from: '',
-      transfer_to: '',
-      products: [],
-      currentQuantity: '',
-      users: []
+      expense: '',
+      amount: ''
     };
     this.toggle = this.toggle.bind(this);
   }
-
-  getAllUsers = () => {
-    getUsers().then((res) => {
-      let dataCategories = [];
-      if (res.data != null) {
-        dataCategories = res.data.map((item) => {
-          return { value: item.category, label: item.category_id };
-        });
-      }
-      this.setState({
-        categories: dataCategories
-      });
-    });
-  };
-
-  getAllProducts = () => {
-    getProducts().then((res) => {
-      let dataProducts = [];
-      let realQuantity;
-      if (res.data != null) {
-        dataProducts = res.data.map((item) => {
-          realQuantity = item.quantity;
-          return {
-            value:
-              item.brand_name +
-              '-' +
-              item.size +
-              '-' +
-              item.price +
-              '-' +
-              item.quantity +
-              '-' +
-              item.category +
-              '-' +
-              item.profile_name +
-              item.vehicle_name,
-            label: item.product_id
-          };
-        });
-      }
-      this.setState({
-        products: dataProducts,
-        currentQuantity: realQuantity
-      });
-      console.log(this.state.products);
-    });
-  };
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -99,27 +44,25 @@ class AddTransfer extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const userId = localStorage.getItem('auth');
     const content = {
-      quantity: this.state.quantity,
-      product: this.state.product,
-      transfer_from: this.state.transfer_from,
-      transfer_to: this.state.transfer_to
+      expense: this.state.expense,
+      amount: this.state.amount,
+      users: userId
     };
     console.log(content);
 
     axios
-      .post(api.ADDTRANSFER, content)
+      .post(api.ADDEXPENSE, content)
       .then((res) => {
         console.log(res);
-        this.props.renderTransfer(res.data);
+        this.props.renderExpense(res.data);
         this.setState({
           modal: false,
-          quantity: '',
-          product: '',
-          transfer_from: '',
-          transfer_to: ''
+          expense: '',
+          amount: ''
         });
-        NotificationManager.success('You have added a new Transfer', 'Successful!', 8000);
+        NotificationManager.success('You have added a new Category!', 'Successful!', 8000);
       })
       .catch((error) => {
         NotificationManager.error(
@@ -134,7 +77,7 @@ class AddTransfer extends Component {
     return (
       <div>
         <Button color="primary" onClick={this.toggle}>
-          <i className="fa fa-plus"></i>&nbsp;Transfers
+          <i className="fa fa-plus"></i>&nbsp;Expense
         </Button>
         <Modal
           isOpen={this.state.modal}
@@ -143,11 +86,11 @@ class AddTransfer extends Component {
           toggle={this.toggle}
         >
           <form onSubmit={this.handleSubmit}>
-            <ModalHeader toggle={this.toggle}>Transfer Details</ModalHeader>
+            <ModalHeader toggle={this.toggle}>Expense Details</ModalHeader>
             <ModalBody>
               <NotificationContainer />
               <div className="mb-3">
-                <span>Add Transfer</span>
+                <span>Add Expense</span>
               </div>
               <div className="w-100">
                 <hr />
@@ -156,15 +99,15 @@ class AddTransfer extends Component {
                 <Col md={3}>
                   <FormGroup>
                     <Label for="exampleCity">
-                      <span style={mystyle}>quantity</span>
+                      <span style={mystyle}>Expense</span>
                     </Label>
                     <Input
                       style={mystyle}
-                      placeholder="Quantity"
+                      placeholder="Expense"
                       type="text"
                       onChange={this.handleChange}
-                      name="quantity"
-                      id="quantity"
+                      name="expense"
+                      id="expense"
                       required
                     />
                   </FormGroup>
@@ -172,15 +115,15 @@ class AddTransfer extends Component {
                 <Col md={3}>
                   <FormGroup>
                     <Label for="exampleCity">
-                      <span style={mystyle}>quantity</span>
+                      <span style={mystyle}>Amount</span>
                     </Label>
                     <Input
                       style={mystyle}
-                      placeholder="Product"
+                      placeholder="Amount"
                       type="text"
                       onChange={this.handleChange}
-                      name="product"
-                      id="product"
+                      name="amount"
+                      id="name"
                       required
                     />
                   </FormGroup>
@@ -202,4 +145,4 @@ class AddTransfer extends Component {
   }
 }
 
-export default Addbrand;
+export default AddExpense;

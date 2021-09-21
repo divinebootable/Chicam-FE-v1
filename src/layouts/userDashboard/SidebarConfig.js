@@ -56,9 +56,17 @@ const sidebarConfig = [
     ]
   },
   {
-    title: 'view sales',
-    path: '/dashboard/blog',
-    icon: getIcon(fileTextFill)
+    title: 'Sales',
+    path: '/dashboard/addsales',
+    icon: getIcon(fileTextFill),
+    children: [
+      { title: 'Add Sales', path: '/dashboard/addsales', icon: getIcon(shoppingBagFill) },
+      {
+        title: 'Sales',
+        path: '/dashboard/warehousesales',
+        icon: getIcon(shoppingBagFill)
+      }
+    ]
   },
   {
     title: 'manage expenses',
@@ -71,19 +79,19 @@ const sidebarConfig = [
     children: [
       {
         title: 'Incoming transfer',
-        path: '/dashboard/blog',
+        path: '/dashboard/transferin',
         icon: getIcon(fileTextFill)
       },
       {
         title: 'Outgoing transfer',
-        path: '/dashboard/blog',
+        path: '/dashboard/transferout',
         icon: getIcon(fileTextFill)
       }
     ]
   },
   {
-    title: 'login',
-    path: '/login',
+    title: 'Payments',
+    path: '/dashboard/transferin',
     icon: getIcon(lockFill)
   },
   // {

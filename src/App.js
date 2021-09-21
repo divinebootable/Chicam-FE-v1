@@ -14,6 +14,13 @@ import { useNavigate, useRoutes } from 'react-router';
 const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+
+  const backButton = () => {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function (event) {
+      window.history.pushState(null, document.title, window.location.href);
+    });
+  };
   const verifyUser = () => {
     const user = localStorage.getItem('usertype');
     if (user) {
@@ -30,6 +37,7 @@ const App = () => {
 
   useEffect(() => {
     verifyUser();
+    backButton();
   }, []);
 
   return isAdmin ? (

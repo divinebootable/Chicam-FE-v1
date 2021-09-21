@@ -11,14 +11,14 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import api from '../../services';
+import api from '../../../services';
 import axios from 'axios';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import getBrands from '../controller/brandController';
-import getCategories from '../controller/categoryController';
-import getProfiles from '../controller/profileController';
-import getVehicles from '../controller/vehicleController';
+import getBrands from '../../controller/brandController';
+import getCategories from '../../controller/categoryController';
+import getProfiles from '../../controller/profileController';
+import getVehicles from '../../controller/vehicleController';
 // import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 
 const mystyle = {
@@ -36,6 +36,7 @@ class AddProduct extends Component {
       quantity: '',
       category: '',
       brand: '',
+      accounts: '',
       profile: '',
       vehicle: '',
       sampleFile: '',
@@ -43,6 +44,7 @@ class AddProduct extends Component {
       brands: [],
       profiles: [],
       vehicles: [],
+      accounts: [],
       selectedFile: null
     };
 
@@ -51,27 +53,39 @@ class AddProduct extends Component {
     this.getAllProfiles();
     this.getAllCtegories();
     this.getAllVehicles();
-    this.getUser();
+    this.showAllAccounts();
   }
 
-  getUser = () => {
-    let user_id = localStorage.getItem('auth');
-    return user_id;
+  showAllAccounts = () => {
+    axios
+      .get(api.ALLUSERS)
+      .then((res) => {
+        let dataAccounts = [];
+        if (res.data != null) {
+          dataAccounts = res.data.map((item) => {
+            return { value: item.warehouse, label: item.users_id };
+          });
+        }
+        this.setState({ accounts: dataAccounts });
+      })
+      .catch((err) => console.log(err));
   };
 
   getAllBrands = () => {
-    getBrands().then((res) => {
-      let dataBrands = [];
-      if (res.data != null) {
-        dataBrands = res.data.map((item) => {
-          return { value: item.brand_name, label: item.brand_id };
+    getBrands()
+      .then((res) => {
+        let dataBrands = [];
+        if (res.data != null) {
+          dataBrands = res.data.map((item) => {
+            return { value: item.brand_name, label: item.brand_id };
+          });
+        }
+        this.setState({
+          brands: dataBrands
         });
-      }
-      this.setState({
-        brands: dataBrands
-      });
-      console.log(this.state.brands);
-    });
+        console.log(this.state.brands);
+      })
+      .catch((err) => console.log(err));
   };
 
   getAllCtegories = () => {
@@ -139,14 +153,13 @@ class AddProduct extends Component {
   }
 
   handleSubmit = (e) => {
-    let users = this.getUser();
     e.preventDefault();
     const content = new FormData();
     content.append('size', this.state.size);
     content.append('price', this.state.price);
     content.append('quantity', this.state.quantity);
     content.append('category', this.state.category);
-    content.set('users', users);
+    content.append('users', this.state.accounts);
     content.append('brand', this.state.brand);
     content.append('profile', this.state.profile);
     content.append('vehicle', this.state.vehicle);
@@ -167,6 +180,7 @@ class AddProduct extends Component {
           quantity: '',
           category: '',
           brand: '',
+          accounts: '',
           profile: '',
           vehicle: '',
           sampleFile: ''
@@ -335,6 +349,30 @@ class AddProduct extends Component {
                       {fbb.value}
                     </option>
                   ))}
+                </Input>
+              </FormGroup>
+            </Col>
+            <Col md={3}>
+              <FormGroup>
+                <Label for="exampleCity">
+                  <span style={mystyle}>Warehouse </span>
+                </Label>
+                <Input
+                  style={mystyle}
+                  placeholder="Warehouse"
+                  type="select"
+                  onChange={this.handleChange}
+                  name="accounts"
+                  id="accounts"
+                  required
+                >
+                  <option>select warehouse</option>
+                  {this.state.accounts.map((fbb, label) => (
+                    <option key={label} value={fbb.label}>
+                      {fbb.value}
+                    </option>
+                  ))}
+                  ;
                 </Input>
               </FormGroup>
             </Col>

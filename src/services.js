@@ -3,9 +3,12 @@ const URL = `http://localhost:3001/api/`;
 export default {
   // Authentication
   LOGIN: URL + `signIn`,
-  // REGISTER: URL + `SignUp`,
+  ADDACCOUNT: URL + `add_account`,
   ALLUSERS: URL + `all_accounts`,
   ALLUSERSBYID: URL + `accounts`,
+  UPDATEACCOUNT: URL + `update_account`,
+  BLOCKACCOUNT: URL + `block_account`,
+  UNBLOCKACCOUNT: URL + `unblock_account`,
   // VERIFYTOKEN: URL + `verifyToken`,
 
   // Brands
@@ -36,6 +39,8 @@ export default {
   ALLPRODUCTBYID: URL + `products`,
   ALLPRODUCT: URL + `all_products`,
   UPDATEPRODUCT: URL + `update_product`,
+  TOTALPRODUCTSPERWAREHOUSE: URL + `products_total_per_warehouse`,
+  TOTALPRODUCTS: URL + `products_total`,
 
   // Expense
   ADDEXPENSE: URL + `add_expense`,
@@ -47,13 +52,15 @@ export default {
   // Transfers
   ADDTRANSFER: URL + `add_transfer`,
   ALLTRANSFERBYID: URL + `transfer`,
-  ALLTRANSFER: URL + `all_transfers`
+  ALLMADETRANSFERBYID: URL + `transfer_made`,
+  ALLTRANSFER: URL + `all_transfers`,
 
-  // // Business
-  // ADDBUSINESS: URL + `AddBusiness`,
-  // ALLBUSINESS: URL + `AllBusinesses`,
-  // UPDATEBUSINESS: URL + `UpdateBusiness`,
-  // DELETEBUSINESS: URL + `DeleteBusiness`,
+  // Sales
+  ADDSALES: URL + `add_sales`,
+  ALLSALESBYID: URL + `sales`,
+  ALLSALES: URL + `all_sales`,
+  UPDATESALES: URL + `update_sales`,
+  VALIDATESALES: URL + `validate`
 
   // // Tax
   // ALLTAX: URL + `AllTax`,

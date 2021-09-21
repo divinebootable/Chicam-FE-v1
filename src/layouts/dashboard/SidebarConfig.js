@@ -19,7 +19,7 @@ const sidebarConfig = [
   },
   {
     title: 'warehouses',
-    path: '/dashboard/user',
+    path: '/dashboard/accounts',
     icon: getIcon(peopleFill)
   },
   {
@@ -62,7 +62,7 @@ const sidebarConfig = [
   },
   {
     title: 'view sales',
-    path: '/dashboard/blog',
+    path: '/dashboard/sales',
     icon: getIcon(fileTextFill)
   },
   {
@@ -71,14 +71,14 @@ const sidebarConfig = [
     children: [
       {
         title: 'view expenses',
-        path: '/dashboard/blog',
-        icon: getIcon(fileTextFill)
-      },
-      {
-        title: 'add expenses',
-        path: '/dashboard/blog',
+        path: '/dashboard/expenses',
         icon: getIcon(fileTextFill)
       }
+      // {
+      //   title: 'add expenses',
+      //   path: '/dashboard/blog',
+      //   icon: getIcon(fileTextFill)
+      // }
     ]
   },
   {
@@ -96,22 +96,22 @@ const sidebarConfig = [
         icon: getIcon(fileTextFill)
       }
     ]
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: getIcon(lockFill)
-  },
-  // {
-  //   title: 'register',
-  //   path: '/register',
-  //   icon: getIcon(personAddFill)
-  // },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon(alertTriangleFill)
   }
+  // {
+  //   title: 'login',
+  //   path: '/login',
+  //   icon: getIcon(lockFill)
+  // },
+  // // {
+  // //   title: 'register',
+  // //   path: '/register',
+  // //   icon: getIcon(personAddFill)
+  // // },
+  // {
+  //   title: 'Not found',
+  //   path: '/404',
+  //   icon: getIcon(alertTriangleFill)
+  // }
 ];
 
 export default sidebarConfig;

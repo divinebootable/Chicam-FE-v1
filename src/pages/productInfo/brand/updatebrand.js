@@ -15,6 +15,7 @@ import {
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import { MDBIcon } from 'mdbreact';
+import api from '../../../services';
 
 const mystyle = {
   height: '30px',
@@ -51,7 +52,7 @@ class UpdateBrand extends Component {
     console.log(content);
 
     axios
-      .put(api.ADD_CaseCategory, content)
+      .put(api.UPDATEBRAND, content)
       .then((res) => {
         this.props.renderBrand(res.data);
         this.setState({
@@ -73,7 +74,12 @@ class UpdateBrand extends Component {
     return (
       <div>
         <MDBIcon icon="edit" onClick={this.toggle} size="1x" className="green-text mr-3 ml-auto" />
-        <Modal isOpen={this.state.modal} size="lg" dialogClassName="modal-90w" toggle={this.toggle}>
+        <Modal
+          isOpen={this.state.modal}
+          size="medium"
+          dialogClassName="modal-90w"
+          toggle={this.toggle}
+        >
           <form onSubmit={this.handleSubmit}>
             <ModalHeader toggle={this.toggle}>Update Brand Details</ModalHeader>
             <ModalBody>

@@ -89,7 +89,7 @@ class Expense extends Component {
           label: 'Action',
           field: 'Action',
           sort: 'asc',
-          width: '75'
+          width: 65
         }
       ],
       rows: Expenses
@@ -100,28 +100,20 @@ class Expense extends Component {
           <AddExpense renderExpense={this.onRenderExpense} />
         </Col>
         <Col>
-          <Card>
-            <NotificationContainer />
-            <CardHeader>
-              <i className="fa fa-suitcase"></i> Expenses
-            </CardHeader>
-            <CardBody>
-              <div className="container-fluid" style={{ width: '80%', fontSize: '10px' }}>
-                <MDBDataTable
-                  small
-                  scrollY
-                  maxHeight="75px"
-                  fontSize="2px"
-                  data={data}
-                  responsive
-                  bordered
-                  hover
-                  className="your-custom-styles"
-                />
-              </div>
-            </CardBody>
-          </Card>
+          <div className="container-fluid" style={{ width: '80%', fontSize: '10px' }}>
+            <MDBDataTable
+              small
+              scrollY
+              fontSize="2px"
+              data={data}
+              responsive
+              bordered
+              hover
+              className="your-custom-styles"
+            />
+          </div>
         </Col>
+        <NotificationContainer />
       </div>
     );
   }

@@ -18,62 +18,74 @@ import {
 import CardHeader from 'reactstrap/lib/CardHeader';
 import CardBody from 'reactstrap/lib/CardBody';
 import { NotificationManager } from 'react-notifications';
-import api from '../../services';
+import api from '../../../services';
 import axios from 'axios';
-import UpdateProduct from './updateProduct';
 
 const path = require('path');
 
-class Product extends Component {
+class SalesBYId extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      sales: []
     };
-    this.showAllProducts();
+    this.showAllSales();
   }
 
-  showAllProducts = () => {
-    const users = localStorage.getItem('auth');
+  validateSales = (value) => {
+    console.log(value);
+    axios.put(api.VALIDATESALES, value).then((res) => {
+      console.log(res);
+    });
+    this.showAllSales();
+  };
+
+  showAllSales = () => {
+    // const users = localStorage.getItem('auth');
     // const config = {
     //     headers: {
     //         'Authorization': 'Bearer ' + AUTH_TOKEN,
     //     }
     // };
-    axios.get(api.ALLPRODUCTBYID + `/${users}`).then((res) => {
+    axios.get(api.ALLSALES).then((res) => {
       console.log(res);
-      this.setState({ products: res.data });
+      this.setState({ sales: res.data });
     });
   };
-  onRenderProduct = (value) => {
-    this.setState({
-      products: value
-    });
-    this.showAllProducts();
-  };
+  // onRenderProduct = (value) => {
+  //   this.setState({
+  //     products: value
+  //   });
+  //   this.showAllProducts();
+  // };
   render() {
-    const Products = (this.state.products || []).map((product, index) => {
-      const url = product.filepath;
-      const filename = path.basename(url); // get file name
-      const time = product.created_on; // get only date
+    const Sales = (this.state.sales || []).map((sale, index) => {
+      const time = sale.created_on; // get only date
       const created = time.split('T'); // get only date
       return {
-        ID: product.product_id,
-        Category: product.category,
-        Brand: product.brand_name,
-        Profile: product.profile_name,
-        Vehicle: product.vehicle_name,
-        Size: product.size,
-        Price: product.price,
-        Quantity: product.quantity,
+        Customer: sale.customer_name,
+        Phone: sale.customer_phone,
+        Address: sale.customer_address,
+        Quantity: sale.quantity,
+        Status: !sale.sales_status ? (
+          <MDBIcon
+            icon="spinner"
+            onClick={() => this.validateSales(sale.sales_id)}
+            className=" red-text mr-3 ml-auto"
+            size="1x"
+          />
+        ) : (
+          <MDBIcon icon="check" className=" green-text mr-3 ml-auto" size="1x" />
+        ),
+        Product: sale.product_id,
         Timestamp: created[0],
         Action: (
           <>
-            <Col>
+            {/* <Col>
               {' '}
               <UpdateProduct products={product} renderProduct={this.onRenderProduct} />
-            </Col>
-            <Col>
+            </Col> */}
+            {/* <Col>
               {' '}
               <MDBIcon
                 icon="trash-alt"
@@ -81,20 +93,10 @@ class Product extends Component {
                 size="1x"
                 className=" red-text mr-3 ml-auto"
               />
-            </Col>
+            </Col> */}
 
             <Col>
-              <a
-                aria-hidden="true"
-                role="button"
-                href={
-                  'file://localhost/home/divine/Documents/Chicam/CHICAM.V1.0/uploads/' + filename
-                }
-                target="_blank"
-                rel="noreferrer"
-              >
-                <MDBIcon icon="eye" size="1x" className=" green-text mr-3 ml-auto" />
-              </a>
+              <MDBIcon icon="print" size="1x" className=" green-text mr-3 ml-auto" />
             </Col>
           </>
         )
@@ -104,50 +106,22 @@ class Product extends Component {
     const data = {
       columns: [
         {
-          label: 'ID',
-          field: 'ID',
+          label: 'Customer',
+          field: 'Customer',
           sort: 'asc',
           width: 45,
           height: 50
         },
         {
-          label: 'Category',
-          field: 'Category',
+          label: 'Phone',
+          field: 'Phone',
           sort: 'asc',
           width: 75,
           height: 50
         },
         {
-          label: 'Brand',
-          field: 'Brand',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Profile',
-          field: 'Profile',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Vehicle',
-          field: 'Vehicle',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Size',
-          field: 'Size',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Price',
-          field: 'Price',
+          label: 'Address',
+          field: 'Address',
           sort: 'asc',
           width: 75,
           height: 50
@@ -160,12 +134,40 @@ class Product extends Component {
           height: 50
         },
         {
+          label: 'Status',
+          field: 'Status',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
+          label: 'Product',
+          field: 'Product',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
           label: 'Timestamp',
           field: 'Timestamp',
           sort: 'asc',
           width: 75,
           height: 50
         },
+        // {
+        //   label: 'Quantity',
+        //   field: 'Quantity',
+        //   sort: 'asc',
+        //   width: 75,
+        //   height: 50
+        // },
+        // {
+        //   label: 'Timestamp',
+        //   field: 'Timestamp',
+        //   sort: 'asc',
+        //   width: 75,
+        //   height: 50
+        // },
         {
           label: 'Action',
           field: 'Action',
@@ -174,7 +176,7 @@ class Product extends Component {
           height: 50
         }
       ],
-      rows: Products
+      rows: Sales
     };
     return (
       <div className="animated fadeIn">
@@ -204,4 +206,4 @@ class Product extends Component {
   }
 }
 
-export default Product;
+export default SalesBYId;

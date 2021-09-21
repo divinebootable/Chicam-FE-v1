@@ -18,13 +18,12 @@ import {
 import CardHeader from 'reactstrap/lib/CardHeader';
 import CardBody from 'reactstrap/lib/CardBody';
 import { NotificationManager } from 'react-notifications';
-import api from '../../services';
+import api from '../../../services';
 import axios from 'axios';
-import UpdateProduct from './updateProduct';
 
 const path = require('path');
 
-class Product extends Component {
+class ProductDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,13 +33,7 @@ class Product extends Component {
   }
 
   showAllProducts = () => {
-    const users = localStorage.getItem('auth');
-    // const config = {
-    //     headers: {
-    //         'Authorization': 'Bearer ' + AUTH_TOKEN,
-    //     }
-    // };
-    axios.get(api.ALLPRODUCTBYID + `/${users}`).then((res) => {
+    axios.get(api.ALLPRODUCT).then((res) => {
       console.log(res);
       this.setState({ products: res.data });
     });
@@ -58,7 +51,8 @@ class Product extends Component {
       const time = product.created_on; // get only date
       const created = time.split('T'); // get only date
       return {
-        ID: product.product_id,
+        //ID: product.product_id,
+        Warehouse:product.warehouse,
         Category: product.category,
         Brand: product.brand_name,
         Profile: product.profile_name,
@@ -68,11 +62,11 @@ class Product extends Component {
         Quantity: product.quantity,
         Timestamp: created[0],
         Action: (
-          <>
-            <Col>
-              {' '}
-              <UpdateProduct products={product} renderProduct={this.onRenderProduct} />
-            </Col>
+          <div>
+            {/**<Col>
+                          {' '}
+                          <UpdateProduct products={product} renderProduct={this.onRenderProduct} />
+                        </Col>**/}
             <Col>
               {' '}
               <MDBIcon
@@ -96,16 +90,16 @@ class Product extends Component {
                 <MDBIcon icon="eye" size="1x" className=" green-text mr-3 ml-auto" />
               </a>
             </Col>
-          </>
+          </div>
         )
       };
     });
 
     const data = {
       columns: [
-        {
-          label: 'ID',
-          field: 'ID',
+         {
+          label: 'Warehouse',
+          field: 'Warehouse',
           sort: 'asc',
           width: 45,
           height: 50
@@ -204,4 +198,4 @@ class Product extends Component {
   }
 }
 
-export default Product;
+export default ProductDetails;

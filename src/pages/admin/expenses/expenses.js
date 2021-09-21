@@ -18,48 +18,53 @@ import {
 import CardHeader from 'reactstrap/lib/CardHeader';
 import CardBody from 'reactstrap/lib/CardBody';
 import { NotificationManager } from 'react-notifications';
-import AddCategory from './addCategory';
-import UpdateCategory from './updateCategory';
+import AddExpense from './addExpense';
+import UpdateExpense from './updateExpense';
 import api from '../../../services';
 import axios from 'axios';
 
-class Category extends Component {
+class Expense extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categories: []
+      expense: []
     };
-    this.showAllCategories();
+    this.showAllExpenseById();
   }
 
-  showAllCategories = () => {
-    // const  AUTH_TOKEN= localStorage.getItem("auth");
+  showAllExpenseById = () => {
     // const config = {
     //     headers: {
     //         'Authorization': 'Bearer ' + AUTH_TOKEN,
     //     }
     // };
-    axios.get(api.ALLCATEGORIES).then((res) => {
-      // console.log(res)
-      this.setState({ categories: res.data });
-    });
+    axios
+      .get(api.ALLEXPENSES)
+      .then((res) => {
+        console.log(res);
+        this.setState({ expense: res.data });
+      })
+      .catch((err) => console.log(err));
   };
-  onRenderCategory = (value) => {
+  onRenderExpense = (value) => {
     this.setState({
-      categories: value
+      expense: value
     });
-    this.showAllCategories();
+    this.showAllExpenseById();
   };
   render() {
-    const Categories = (this.state.categories || []).map((category, index) => {
+    const Expenses = (this.state.expense || []).map((expense, index) => {
       return {
-        Category: category.category,
+        Expense: expense.expense,
+        Amount: expense.amount,
+        Warehouse: expense.warehouse,
+        Username: expense.username,
         Action: (
           <div>
-            <UpdateCategory categories={category} renderCategory={this.onRenderCategory} />
+            <UpdateExpense expenses={expense} renderExpense={this.onRenderExpense} />
             <MDBIcon
               icon="trash-alt"
-              onClick={() => this.submit(category)}
+              onClick={() => this.submit(expense)}
               size="1x"
               className=" red-text mr-3 ml-auto"
             />
@@ -71,8 +76,29 @@ class Category extends Component {
     const data = {
       columns: [
         {
-          label: 'Category',
-          field: 'Category',
+          label: 'Expense',
+          field: 'Expense',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
+          label: 'Amount',
+          field: 'Amount',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
+          label: 'Warehouse',
+          field: 'Warehouse',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
+          label: 'Username',
+          field: 'Username',
           sort: 'asc',
           width: 75,
           height: 50
@@ -81,18 +107,17 @@ class Category extends Component {
           label: 'Action',
           field: 'Action',
           sort: 'asc',
-          width: '75'
+          width: 65
         }
       ],
-      rows: Categories
+      rows: Expenses
     };
     return (
       <div className="animated fadeIn">
         <Col sm xs="12" className=" mt-3 mb-3">
-          <AddCategory renderCategory={this.onRenderCategory} />
+          <AddExpense renderExpense={this.onRenderExpense} />
         </Col>
         <Col>
-          <NotificationContainer />
           <div className="container-fluid" style={{ width: '80%', fontSize: '10px' }}>
             <MDBDataTable
               small
@@ -106,9 +131,10 @@ class Category extends Component {
             />
           </div>
         </Col>
+        <NotificationContainer />
       </div>
     );
   }
 }
 
-export default Category;
+export default Expense;

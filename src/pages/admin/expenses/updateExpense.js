@@ -14,21 +14,22 @@ import {
 } from 'reactstrap';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import { MDBIcon } from 'mdbreact';
 import api from '../../../services';
+import { MDBIcon } from 'mdbreact';
 
 const mystyle = {
   height: '30px',
   fontSize: '.70rem'
 };
 
-class UpdateCategory extends Component {
+class UpdateExpense extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
-      _id: this.props.categories.category_id,
-      category: this.props.categories.category
+      _id: this.props.expenses.expenses_id,
+      expense: this.props.expenses.expense,
+      amount: this.props.expenses.amount
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -45,21 +46,26 @@ class UpdateCategory extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const userId = localStorage.getItem('auth');
     const content = {
-      category_id: this.state._id,
-      category: this.state.category
+      expenses_id: this.state._id,
+      expense: this.state.expense,
+      amount: this.state.amount,
+      users: userId
     };
     console.log(content);
 
     axios
-      .put(api.UPDATECATEGORY, content)
+      .put(api.UPDATEEXPENSE, content)
       .then((res) => {
-        this.props.renderCategory(res.data);
+        console.log(res);
+        this.props.renderExpense(res.data);
         this.setState({
           modal: false,
-          category: ''
+          expense: '',
+          amount: ''
         });
-        NotificationManager.success('Update Successful!', 'Successful!', 8000);
+        NotificationManager.success('Update!', 'Successful!', 8000);
       })
       .catch((error) => {
         NotificationManager.error(
@@ -81,11 +87,11 @@ class UpdateCategory extends Component {
           toggle={this.toggle}
         >
           <form onSubmit={this.handleSubmit}>
-            <ModalHeader toggle={this.toggle}>Update Category Details</ModalHeader>
+            <ModalHeader toggle={this.toggle}>Expense Details</ModalHeader>
             <ModalBody>
               <NotificationContainer />
               <div className="mb-3">
-                <span>Update Category</span>
+                <span>Update Expense</span>
               </div>
               <div className="w-100">
                 <hr />
@@ -94,15 +100,32 @@ class UpdateCategory extends Component {
                 <Col md={3}>
                   <FormGroup>
                     <Label for="exampleCity">
-                      <span style={mystyle}>Category Name</span>
+                      <span style={mystyle}>Expense</span>
                     </Label>
                     <Input
                       style={mystyle}
-                      placeholder="Brand"
-                      value={this.state.category}
+                      placeholder="Expense"
+                      value={this.state.expense}
                       type="text"
                       onChange={this.handleChange}
-                      name="category"
+                      name="expense"
+                      id="expense"
+                      required
+                    />
+                  </FormGroup>
+                </Col>
+                <Col md={3}>
+                  <FormGroup>
+                    <Label for="exampleCity">
+                      <span style={mystyle}>Amount</span>
+                    </Label>
+                    <Input
+                      style={mystyle}
+                      placeholder="Amount"
+                      value={this.state.amount}
+                      type="text"
+                      onChange={this.handleChange}
+                      name="amount"
                       id="name"
                       required
                     />
@@ -125,4 +148,4 @@ class UpdateCategory extends Component {
   }
 }
 
-export default UpdateCategory;
+export default UpdateExpense;

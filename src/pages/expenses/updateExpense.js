@@ -15,6 +15,7 @@ import {
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import api from '../../services';
+import { MDBIcon } from 'mdbreact';
 
 const mystyle = {
   height: '30px',
@@ -55,7 +56,7 @@ class UpdateExpense extends Component {
     console.log(content);
 
     axios
-      .post(api.UPDATEEXPENSE, content)
+      .put(api.UPDATEEXPENSE, content)
       .then((res) => {
         console.log(res);
         this.props.renderExpense(res.data);
@@ -64,7 +65,7 @@ class UpdateExpense extends Component {
           expense: '',
           amount: ''
         });
-        NotificationManager.success('You have added a new Category!', 'Successful!', 8000);
+        NotificationManager.success('Update!', 'Successful!', 8000);
       })
       .catch((error) => {
         NotificationManager.error(
@@ -78,9 +79,7 @@ class UpdateExpense extends Component {
   render() {
     return (
       <div>
-        <Button color="primary" onClick={this.toggle}>
-          <i className="fa fa-edit"></i>&nbsp;Expense
-        </Button>
+        <MDBIcon icon="edit" onClick={this.toggle} size="1x" className="green-text mr-3 ml-auto" />
         <Modal
           isOpen={this.state.modal}
           size="medium"

@@ -18,8 +18,6 @@ import {
 import CardHeader from 'reactstrap/lib/CardHeader';
 import CardBody from 'reactstrap/lib/CardBody';
 import { NotificationManager } from 'react-notifications';
-import AddBrand from './addBrand';
-import UpdateBrand from './updatebrand';
 import api from '../../../services';
 import axios from 'axios';
 
@@ -52,12 +50,18 @@ class Transfers extends Component {
   };
   render() {
     const Transfers = (this.state.transfers || []).map((transfer, index) => {
+      const time = transfer.created_on; // get only date
+      const created = time.split('T'); // get only date
       return {
         Quantity: transfer.quantity,
         Product: transfer.product,
-        From: transfer.warehouse,
-        State: transfer.transfer_state,
-        TimeStamp: transfer.created_on,
+        // From: transfer.warehouse,
+        State: !transfer.transfer_state ? (
+          <MDBIcon icon="spinner" className=" red-text mr-3 ml-auto" size="1x" />
+        ) : (
+          <MDBIcon icon="check" className=" green-text mr-3 ml-auto" size="1x" />
+        ),
+        TimeStamp: created[0],
         Action: (
           <div>
             <MDBIcon
@@ -87,13 +91,13 @@ class Transfers extends Component {
           width: 75,
           height: 50
         },
-        {
-          label: 'From',
-          field: 'From',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
+        // {
+        //   label: 'From',
+        //   field: 'From',
+        //   sort: 'asc',
+        //   width: 75,
+        //   height: 50
+        // },
         {
           label: 'State',
           field: 'State',

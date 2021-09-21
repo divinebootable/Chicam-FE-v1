@@ -74,7 +74,12 @@ class UpdateVehicle extends Component {
     return (
       <div>
         <MDBIcon icon="edit" onClick={this.toggle} size="1x" className="green-text mr-3 ml-auto" />
-        <Modal isOpen={this.state.modal} size="lg" dialogClassName="modal-90w" toggle={this.toggle}>
+        <Modal
+          isOpen={this.state.modal}
+          size="medium"
+          dialogClassName="modal-90w"
+          toggle={this.toggle}
+        >
           <form onSubmit={this.handleSubmit}>
             <ModalHeader toggle={this.toggle}>Update Vehicle Details</ModalHeader>
             <ModalBody>
