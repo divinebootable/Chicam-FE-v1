@@ -20,25 +20,28 @@ import CardBody from 'reactstrap/lib/CardBody';
 import { NotificationManager } from 'react-notifications';
 import api from '../../../services';
 import axios from 'axios';
-import ProductDetails from './productDetails';
-// import UpdateProduct from './updateProduct';
 
 const path = require('path');
 
-class Product extends Component {
+class SalesPerWarehouse extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      sales: []
     };
-    this.showAllProducts();
+    this.showAllSales();
   }
 
-  showAllProducts = () => {
-    axios.get(api.TOTALPRODUCTSPERWAREHOUSE).then((res) => {
-      console.log(res.data.rows);
-      this.setState({ products: res.data.rows });
-    });
+  showAllSales = () => {
+    axios
+      .get(api.TOTALSALESPERWAREHOUSE)
+      .then((res) => {
+        console.log(res.data.rows);
+        this.setState({ sales: res.data.rows });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   //   onRenderProduct = (value) => {
   //     this.setState({
@@ -47,21 +50,21 @@ class Product extends Component {
   //     this.showAllProducts();
   //   };
   render() {
-    const Products = (this.state.products || []).map((product, index) => {
+    const Sales = (this.state.sales || []).map((sale, index) => {
       //   const url = product.filepath;
       //   const filename = path.basename(url); // get file name
       //   const time = product.created_on; // get only date
       //   const created = time.split('T'); // get only date
       return {
-        Warehouse: product.warehouse,
-        Total_Number_Of_Products: product.sum,
-        Action: (
-          <>
-            <Col>
-              <MDBIcon icon="eye" size="1x" className=" green-text mr-3 ml-auto" />
-            </Col>
-          </>
-        )
+        Warehouse: sale.warehouse,
+        Total_Number_Of_Sales: sale.sum
+        // Action: (
+        //   <>
+        //     <Col>
+        //       <MDBIcon icon="eye" size="1x" className=" green-text mr-3 ml-auto" />
+        //     </Col>
+        //   </>
+        // )
       };
     });
 
@@ -75,21 +78,21 @@ class Product extends Component {
           height: 50
         },
         {
-          label: 'Total number of products',
-          field: 'Total_Number_Of_Products',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Action',
-          field: 'Action',
+          label: 'Total number of Sales',
+          field: 'Total_Number_Of_Sales',
           sort: 'asc',
           width: 75,
           height: 50
         }
+        // {
+        //   label: 'Action',
+        //   field: 'Action',
+        //   sort: 'asc',
+        //   width: 75,
+        //   height: 50
+        // }
       ],
-      rows: Products
+      rows: Sales
     };
     return (
       <div>
@@ -118,14 +121,9 @@ class Product extends Component {
             </Col>
           </div>
         </Col>
-        <div style={{ height: '60%' }}>
-          <Col>
-            <ProductDetails />
-          </Col>
-        </div>
       </div>
     );
   }
 }
 
-export default Product;
+export default SalesPerWarehouse;

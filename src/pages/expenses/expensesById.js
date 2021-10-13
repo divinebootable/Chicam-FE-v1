@@ -39,10 +39,15 @@ class Expense extends Component {
     //         'Authorization': 'Bearer ' + AUTH_TOKEN,
     //     }
     // };
-    axios.get(api.ALLEXPENSEBYID + `/${users}`).then((res) => {
-      console.log(res);
-      this.setState({ expense: res.data });
-    });
+    axios
+      .get(api.ALLEXPENSEBYID + `/${users}`)
+      .then((res) => {
+        console.log(res);
+        this.setState({ expense: res.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   onRenderExpense = (value) => {
     this.setState({
@@ -55,6 +60,7 @@ class Expense extends Component {
       return {
         Expense: expense.expense,
         Amount: expense.amount,
+        Time: expense.created_on,
         Action: (
           <div>
             <UpdateExpense expenses={expense} renderExpense={this.onRenderExpense} />
@@ -84,6 +90,12 @@ class Expense extends Component {
           sort: 'asc',
           width: 75,
           height: 50
+        },
+        {
+          label: 'Time',
+          field: 'Time',
+          sort: 'asc',
+          width: 65
         },
         {
           label: 'Action',

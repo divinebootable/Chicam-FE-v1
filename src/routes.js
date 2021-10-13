@@ -15,9 +15,10 @@ import Profile from './pages/productInfo/profiles/profiles';
 import Vehicle from './pages/productInfo/vehicle/vehicle';
 import AddProduct from './pages/admin/products/addproducts';
 import Expense from './pages/admin/expenses/expenses';
-import Sales from './pages/admin/sales/sales';
+import SalesMain from './pages/admin/sales/sales';
 import NotFound from './pages/Page404';
 import Accounts from './pages/admin/warehouse/account';
+import AllPayments from './pages/admin/payments/payments';
 
 // ----------------------------------------------------------------------
 
@@ -37,8 +38,9 @@ export default function Router() {
         { path: 'products', element: <Products /> },
         { path: 'accounts', element: <Accounts /> },
         { path: 'expenses', element: <Expense /> },
-        { path: 'sales', element: <Sales /> },
+        { path: 'sales', element: <SalesMain /> },
         { path: 'addproducts', element: <AddProduct /> },
+        { path: 'payments', element: <AllPayments /> },
         { path: 'blog', element: <Blog /> }
       ]
     },

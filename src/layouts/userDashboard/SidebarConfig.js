@@ -91,19 +91,30 @@ const sidebarConfig = [
   },
   {
     title: 'Payments',
-    path: '/dashboard/transferin',
-    icon: getIcon(lockFill)
-  },
-  // {
+    icon: getIcon(fileTextFill),
+    children: [
+      {
+        title: 'Add Payments',
+        path: '/dashboard/addpayments',
+        icon: getIcon(lockFill)
+      },
+      {
+        title: 'Payments',
+        path: '/dashboard/payments',
+        icon: getIcon(lockFill)
+      }
+    ]
+  }
+  // {  payments
   //   title: 'register',
   //   path: '/register',
   //   icon: getIcon(personAddFill)
   // },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: getIcon(alertTriangleFill)
-  }
+  //{
+  // title: 'Not found',
+  // path: '/404',
+  // icon: getIcon(alertTriangleFill)
+  // }
 ];
 
 export default sidebarConfig;

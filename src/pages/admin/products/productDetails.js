@@ -19,6 +19,7 @@ import CardHeader from 'reactstrap/lib/CardHeader';
 import CardBody from 'reactstrap/lib/CardBody';
 import { NotificationManager } from 'react-notifications';
 import api from '../../../services';
+import UpdateProducts from './updateProducts';
 import axios from 'axios';
 
 const path = require('path');
@@ -46,13 +47,14 @@ class ProductDetails extends Component {
   };
   render() {
     const Products = (this.state.products || []).map((product, index) => {
+      console.log('product: ' + product.filepath);
       const url = product.filepath;
       const filename = path.basename(url); // get file name
       const time = product.created_on; // get only date
       const created = time.split('T'); // get only date
       return {
         //ID: product.product_id,
-        Warehouse:product.warehouse,
+        Warehouse: product.warehouse,
         Category: product.category,
         Brand: product.brand_name,
         Profile: product.profile_name,
@@ -63,10 +65,10 @@ class ProductDetails extends Component {
         Timestamp: created[0],
         Action: (
           <div>
-            {/**<Col>
-                          {' '}
-                          <UpdateProduct products={product} renderProduct={this.onRenderProduct} />
-                        </Col>**/}
+            <Col>
+              {' '}
+              <UpdateProducts products={product} renderProduct={this.onRenderProduct} />
+            </Col>
             <Col>
               {' '}
               <MDBIcon
@@ -76,7 +78,6 @@ class ProductDetails extends Component {
                 className=" red-text mr-3 ml-auto"
               />
             </Col>
-
             <Col>
               <a
                 aria-hidden="true"
@@ -97,7 +98,7 @@ class ProductDetails extends Component {
 
     const data = {
       columns: [
-         {
+        {
           label: 'Warehouse',
           field: 'Warehouse',
           sort: 'asc',
@@ -147,14 +148,14 @@ class ProductDetails extends Component {
           height: 50
         },
         {
-          label: 'Quantity',
+          label: 'Qtty',
           field: 'Quantity',
           sort: 'asc',
           width: 75,
           height: 50
         },
         {
-          label: 'Timestamp',
+          label: 'Time',
           field: 'Timestamp',
           sort: 'asc',
           width: 75,
@@ -180,7 +181,10 @@ class ProductDetails extends Component {
           {/* <CardHeader>
               <i className="fa fa-suitcase"></i> Products
             </CardHeader> */}
-          <div className="container-fluid" style={{ width: '100%', fontSize: '10px' }}>
+          <div
+            className="container-fluid"
+            style={{ width: '100%', height: '60%', fontSize: '10px' }}
+          >
             <MDBDataTable
               small
               scrollY

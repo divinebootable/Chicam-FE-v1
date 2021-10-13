@@ -53,14 +53,25 @@ export default {
   ADDTRANSFER: URL + `add_transfer`,
   ALLTRANSFERBYID: URL + `transfer`,
   ALLMADETRANSFERBYID: URL + `transfer_made`,
-  ALLTRANSFER: URL + `all_transfers`,
+  ALLINCOMINGTRANSFER: URL + `in_transfers`,
+  ALLOUTGOINGTRANSFER: URL + `out_transfers`,
 
   // Sales
   ADDSALES: URL + `add_sales`,
   ALLSALESBYID: URL + `sales`,
   ALLSALES: URL + `all_sales`,
   UPDATESALES: URL + `update_sales`,
-  VALIDATESALES: URL + `validate`
+  VALIDATESALES: URL + `validate`,
+  MONTHLYREPORT: URL + `monthly_report`,
+  WEEKLYREPORT: URL + `weekly_report`,
+  DAILYREPORT: URL + `daily_report`,
+  TOTALSALES: URL + `total_sales`,
+  TOTALSALESPERWAREHOUSE: URL + `total_salesPerWarehouse`,
+
+  // Payments
+  ADDPAYMENT: URL + `add_payment`,
+  ALLPAYMENTSBYID: URL + `payment`,
+  ALLPAYMENTS: URL + `payments`
 
   // // Tax
   // ALLTAX: URL + `AllTax`,

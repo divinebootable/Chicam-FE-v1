@@ -11,14 +11,14 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import api from '../../services';
+import api from '../../../services';
 import axios from 'axios';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import getBrands from '../controller/brandController';
-import getCategories from '../controller/categoryController';
-import getProfiles from '../controller/profileController';
-import getVehicles from '../controller/vehicleController';
+import getBrands from '../../controller/brandController';
+import getCategories from '../../controller/categoryController';
+import getProfiles from '../../controller/profileController';
+import getVehicles from '../../controller/vehicleController';
 import {
   MDBContainer,
   MDBBtn,
@@ -47,11 +47,13 @@ class UpdateProduct extends Component {
       brand: this.props.products.brand_name,
       profile: this.props.products.profile_name,
       vehicle: this.props.products.vehicle_name,
-      sampleFile: '',
+      account: this.props.products.warehouse,
+      sampleFile: this.props.products.filepath,
       categories: [],
       brands: [],
       profiles: [],
       vehicles: [],
+      accounts: [],
       selectedFile: null
     };
 
@@ -60,12 +62,22 @@ class UpdateProduct extends Component {
     this.getAllProfiles();
     this.getAllCtegories();
     this.getAllVehicles();
-    this.getUser();
+    this.showAllAccounts();
   }
 
-  getUser = () => {
-    let user_id = localStorage.getItem('auth');
-    return user_id;
+  showAllAccounts = () => {
+    axios
+      .get(api.ALLUSERS)
+      .then((res) => {
+        let dataAccounts = [];
+        if (res.data != null) {
+          dataAccounts = res.data.map((item) => {
+            return { value: item.warehouse, label: item.users_id };
+          });
+        }
+        this.setState({ accounts: dataAccounts });
+      })
+      .catch((err) => console.log(err));
   };
 
   getAllBrands = () => {
@@ -148,7 +160,6 @@ class UpdateProduct extends Component {
   }
 
   handleSubmit = (e) => {
-    let users = this.getUser();
     e.preventDefault();
     const content = new FormData();
     content.append('product_id', this.state.id);
@@ -156,41 +167,41 @@ class UpdateProduct extends Component {
     content.append('price', this.state.price);
     content.append('quantity', this.state.quantity);
     content.append('category', this.state.category);
-    content.set('users', users);
+    content.set('users', this.state.account);
     content.append('brand', this.state.brand);
     content.append('profile', this.state.profile);
     content.append('vehicle', this.state.vehicle);
-    content.append('sampleFile', this.state.selectedFile, this.state.selectedFile.name);
+    content.append('sampleFile', this.state.selectedFile, this.state.selectedFile.name || '');
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     };
-    // for (let value of content.values()) {
-    //   console.log(value);
-    // }
+    for (let value of content) {
+      console.log(value);
+    }
 
-    axios
-      .post(api.ADDPRODUCT, content)
-      .then((res) => {
-        this.setState({
-          size: '',
-          price: '',
-          quantity: '',
-          category: '',
-          users: '',
-          brand: '',
-          profile: '',
-          vehicle: '',
-          sampleFile: ''
-        });
-        NotificationManager.success('Update!', 'Successful!', 8000);
-      })
-      .catch((error) => {
-        NotificationManager.error(
-          'Network error!please make sure you are connected.',
-          'Error!',
-          8000
-        );
-      });
+    // axios
+    //   .post(api.ADDPRODUCT, content)
+    //   .then((res) => {
+    //     this.setState({
+    //       size: '',
+    //       price: '',
+    //       quantity: '',
+    //       category: '',
+    //       users: '',
+    //       brand: '',
+    //       profile: '',
+    //       vehicle: '',
+    //       sampleFile: ''
+    //     });
+    //     NotificationManager.success('Update!', 'Successful!', 8000);
+    //   })
+    //   .catch((error) => {
+    //     NotificationManager.error(
+    //       'Network error!please make sure you are connected.',
+    //       'Error!',
+    //       8000
+    //     );
+    //   });
   };
 
   render() {
@@ -357,6 +368,30 @@ class UpdateProduct extends Component {
                     </Input>
                   </FormGroup>
                 </Col>
+                <Col md={3}>
+                  <FormGroup>
+                    <Label for="exampleCity">
+                      <span style={mystyle}>Warehouse </span>
+                    </Label>
+                    <Input
+                      style={mystyle}
+                      placeholder="Warehouse"
+                      type="select"
+                      onChange={this.handleChange}
+                      name="account"
+                      id="account"
+                      required
+                    >
+                      <option value={this.state.account}>{this.state.account}</option>
+                      {/* {this.state.accounts.map((fbb, label) => (
+                        <option key={label} value={fbb.label}>
+                          {fbb.value}
+                        </option>
+                      ))} */}
+                      ;
+                    </Input>
+                  </FormGroup>
+                </Col>
                 <Col md={2}>
                   <FormGroup>
                     <Label for="FileUplaod">
@@ -366,6 +401,7 @@ class UpdateProduct extends Component {
                       style={mystyle}
                       placeholder="File Upload"
                       onChange={this.onFileChange}
+                      value={this.state.sampleFile}
                       type="file"
                       name="sampleFile"
                       id="FileUplaod"

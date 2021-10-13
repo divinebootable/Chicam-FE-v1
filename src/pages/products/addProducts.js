@@ -161,7 +161,8 @@ class AddProduct extends Component {
     axios
       .post(api.ADDPRODUCT, content)
       .then((res) => {
-        this.setState({
+        if(res.status === 200){
+          this.setState({
           size: '',
           price: '',
           quantity: '',
@@ -172,6 +173,7 @@ class AddProduct extends Component {
           sampleFile: ''
         });
         NotificationManager.success('New Product added!', 'Successful!', 8000);
+        }
       })
       .catch((error) => {
         NotificationManager.error(

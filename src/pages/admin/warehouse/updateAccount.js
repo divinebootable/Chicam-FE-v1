@@ -28,7 +28,7 @@ class UpdateAccount extends Component {
     this.state = {
       modal: false,
       _id: this.props.accounts.users_id,
-      username: this.props.accounts.username,
+      username: '',
       current_username: this.props.accounts.username,
       password: '',
       confirmpassword: '',
@@ -53,24 +53,20 @@ class UpdateAccount extends Component {
     const content = {
       users: userId,
       username: this.state.username,
+      current_username: this.state.current_username,
       password: this.state.password,
       role: this.state.role
     };
     console.log(content);
 
     axios
-      .post(api.UPDATEACCOUNT, content)
+      .put(api.UPDATEACCOUNT, content)
       .then((res) => {
         console.log(res);
-        this.props.renderAccount(res.data);
-        this.setState({
-          modal: false,
-          username: '',
-          password: '',
-          warehouse: '',
-          role: ''
-        });
-        NotificationManager.success('You have added a new Account!', 'Successful!', 8000);
+        if (res.status === 200) {
+          this.props.renderAccounts(res.data);
+          NotificationManager.success('You have added a new Account!', 'Successful!', 8000);
+        }
       })
       .catch((error) => {
         NotificationManager.error(
@@ -88,7 +84,7 @@ class UpdateAccount extends Component {
         <Modal
           isOpen={this.state.modal}
           size="medium"
-          dialogClassName="modal-90w"
+          dialogclassname="modal-90w"
           toggle={this.toggle}
         >
           <form onSubmit={this.handleSubmit}>
@@ -111,7 +107,6 @@ class UpdateAccount extends Component {
                       style={mystyle}
                       placeholder="Username"
                       type="text"
-                      value={this.state.username}
                       onChange={this.handleChange}
                       name="username"
                       id="username"
@@ -128,7 +123,7 @@ class UpdateAccount extends Component {
                       style={mystyle}
                       placeholder="Current username"
                       type="text"
-                      value={this.state.username}
+                      value={this.state.current_username}
                       onChange={this.handleChange}
                       name="current_username"
                       id="current_username"

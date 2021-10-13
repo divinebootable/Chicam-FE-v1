@@ -19,6 +19,8 @@ import IncomingTransfers from './pages/transfers/incoming/transfer';
 import OutgoingTransfers from './pages/transfers/outgoing/transfer';
 import AddSales from './pages/sales/addSales';
 import SalesById from './pages/sales/salesById';
+import AddPayments from './pages/payments/addpayments';
+import PaymentById from './pages/payments/paymentsById';
 
 import NotFound from './pages/Page404';
 
@@ -43,6 +45,8 @@ export default function Router() {
         { path: 'expense', element: <Expense /> },
         { path: 'transferin', element: <IncomingTransfers /> },
         { path: 'transferout', element: <OutgoingTransfers /> },
+        { path: 'addpayments', element: <AddPayments /> },
+        { path: 'payments', element: <PaymentById /> },
         { path: 'user', element: <User /> },
         { path: 'blog', element: <Blog /> }
       ]

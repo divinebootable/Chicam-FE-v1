@@ -17,8 +17,6 @@ import api from '../../../services';
 import getProducts from '../../controller/productController';
 import getUsers from '../../controller/userController';
 import axios from 'axios';
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const mystyle = {
   height: '30px',
@@ -87,7 +85,7 @@ class AddTransfer extends Component {
         products: dataProducts,
         currentQuantity: realQuantity
       });
-      console.log('ok' + this.state.currentQuantity);
+      console.log(this.state.products);
     });
   };
 
@@ -110,48 +108,32 @@ class AddTransfer extends Component {
       transfer_from: user_id,
       transfer_to: this.state.transfer_to
     };
-    console.log('ok' + content.product);
+    console.log(content.quantity);
+    if (parseInt(content.quantity) <= parseInt(this.state.currentQuantity)) {
       axios
         .post(api.ADDTRANSFER, content)
         .then((res) => {
-             console.log(res)
-          if (res.status === 200) {
-            this.setState({
-              modal: false,
-              quantity: '',
-              product: '',
-              transfer_from: '',
-              transfer_to: ''
-            });
-            NotificationManager.success('You have added a new Transfer', 'Successful!', 8000);
-          }
+          console.log(res);
+          this.props.transfer(res.data);
+          this.setState({
+            modal: false,
+            quantity: '',
+            product: '',
+            transfer_from: '',
+            transfer_to: ''
+          });
+          NotificationManager.success('You have added a new Transfer', 'Successful!', 8000);
         })
         .catch((error) => {
-              this.setState({
-                modal: false,
-                quantity: '',
-                product: '',
-                transfer_from: '',
-                transfer_to: ''
-              });
-         confirmAlert({
-               title: 'Insufficient Products',
-               message: 'Sorry you dont have enough products to do a transfer.'
-      });
+          NotificationManager.error(
+            'Network error!please make sure you are connected.',
+            'Error!',
+            8000
+          );
         });
-    // } else {
-    //   this.setState({
-    //     modal: false,
-    //     quantity: '',
-    //     product: '',
-    //     transfer_from: '',
-    //     transfer_to: ''
-    //   });
-    //   confirmAlert({
-    //     title: 'Insufficient Products',
-    //     message: 'Sorry you dont have enough products to do a transfer.'
-    //   });
-    // }
+    } else {
+      alert('Insufficient products');
+    }
   };
 
   render() {

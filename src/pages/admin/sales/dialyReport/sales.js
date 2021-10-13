@@ -18,33 +18,21 @@ import {
 import CardHeader from 'reactstrap/lib/CardHeader';
 import CardBody from 'reactstrap/lib/CardBody';
 import { NotificationManager } from 'react-notifications';
-import api from '../../../services';
+import api from '../../../../services';
 import axios from 'axios';
 import { date } from 'yup/lib/locale';
-import generatePDF from '../../controller/reportSalesGenerator';
-import generateTablePDF from '../../controller/reportSalesTableGenerator';
-import generatePDFMonthly from './monthlyReport/reportGenerator';
-import generatePDFWeekly from './weeklyReport/reportGenerator';
-import generatePDFDaily from './dialyReport/reportGenerator';
+import generatePDF from './reportGenerator';
 import SalesTickets from './salesTickets';
-import SalesPerWarehouse from './salesPerWarehouse';
 
 const path = require('path');
 
-class SalesMain extends Component {
+class SalesDaily extends Component {
   constructor(props) {
     super(props);
     this.state = {
       sales: [],
-      reportMonthly: [],
-      weeklySales: [],
-      dailySales: [],
       tickets: []
     };
-    this.showAllSales();
-    this.monthlySalesReport();
-    this.weeklySalesReport();
-    this.dailysalesReport();
   }
 
   validateSales = (value) => {
@@ -58,57 +46,27 @@ class SalesMain extends Component {
       .put(api.VALIDATESALES, content)
       .then((res) => {
         console.log(res);
-        this.showAllSales();
+        // this.showAllSales();
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  showAllSales = () => {
+  componentDidMount() {
+    // showAllSales = () => {
     // const users = localStorage.getItem('auth');
     // const config = {
     //     headers: {
     //         'Authorization': 'Bearer ' + AUTH_TOKEN,
     //     }
     // };
-    axios.get(api.ALLSALES).then((res) => {
-      this.setState({ sales: res.data });
-    });
-  };
-
-  monthlySalesReport = () => {
-    axios
-      .get(api.MONTHLYREPORT)
-      .then((res) => {
-        console.log('monthly' + res.data.rows);
-        this.setState({ reportMonthly: res.data.rows });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  weeklySalesReport = () => {
-    axios
-      .get(api.WEEKLYREPORT)
-      .then((res) => {
-        console.log(res);
-        this.setState({ weeklySales: res.data.rows });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // };
-  };
-
-  dailysalesReport = () => {
     axios.get(api.DAILYREPORT).then((res) => {
       console.log(res);
-      this.setState({ dailySales: res.data.rows });
+      this.setState({ sales: res.data });
     });
     // };
-  };
+  }
 
   // getAllSalesOnPdf = (tickets) => {
   //   this.setState({
@@ -123,13 +81,6 @@ class SalesMain extends Component {
   //   this.showAllProducts();
   // };
   render() {
-    const reportTicketsDaily = this.state.dailySales.filter((value) => value.sales_status === true);
-    const reportTicketsWeekly = this.state.weeklySales.filter(
-      (value) => value.sales_status === true
-    );
-    const reportTicketsMonthly = this.state.reportMonthly.filter(
-      (value) => value.sales_status === true
-    );
     const reportTickets = this.state.sales.filter((value) => value.sales_status === true);
     const Sales = (this.state.sales || []).map((sale, index) => {
       var currentdate = new Date();
@@ -150,14 +101,12 @@ class SalesMain extends Component {
             size="1x"
           />
         ) : (
-          <span style={{ backgroundColor: '#2F9169', color: '#FFFFFF' }}>
-            <b>Validated</b>
-          </span>
+          <MDBIcon icon="check" className=" green-text mr-3 ml-auto" size="1x" />
         ),
-        Brand: sale.brand_name,
-        // Category: sale.category,
-        Profile: sale.profile_name,
-        Vehicle: sale.vehicle_name,
+        Brand: sale.brand,
+        Category: sale.category,
+        Profile: sale.profile,
+        Vehicle: sale.vehicle,
         Timestamp: created[0],
         Action: (
           <>
@@ -165,15 +114,15 @@ class SalesMain extends Component {
               {' '}
               <UpdateProduct products={product} renderProduct={this.onRenderProduct} />
             </Col> */}
-            <Col>
+            {/* <Col>
               {' '}
               <MDBIcon
-                icon="print"
-                onClick={() => generateTablePDF(sale)}
+                icon="trash-alt"
+                onClick={() => this.submit(product)}
                 size="1x"
                 className=" red-text mr-3 ml-auto"
               />
-            </Col>
+            </Col> */}
             {/* 
             <Col>
               <MDBIcon
@@ -198,7 +147,7 @@ class SalesMain extends Component {
           height: 50
         },
         {
-          label: 'Client',
+          label: 'Customer',
           field: 'Customer',
           sort: 'asc',
           width: 45,
@@ -219,7 +168,7 @@ class SalesMain extends Component {
           height: 50
         },
         {
-          label: 'Qty',
+          label: 'Quantity',
           field: 'Quantity',
           sort: 'asc',
           width: 75,
@@ -239,13 +188,13 @@ class SalesMain extends Component {
           width: 75,
           height: 50
         },
-        // {
-        //   label: 'Cat',
-        //   field: 'Category',
-        //   sort: 'asc',
-        //   width: 75,
-        //   height: 50
-        // },
+        {
+          label: 'Category',
+          field: 'Category',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
         {
           label: 'Profile',
           field: 'Profile',
@@ -268,12 +217,12 @@ class SalesMain extends Component {
         //   height: 50
         // },
         {
-          label: 'SoldOn',
+          label: 'Timestamp',
           field: 'Timestamp',
           sort: 'asc',
           width: 75,
           height: 50
-        },
+        }
         // {
         //   label: 'Quantity',
         //   field: 'Quantity',
@@ -288,55 +237,31 @@ class SalesMain extends Component {
         //   width: 75,
         //   height: 50
         // },
-        {
-          label: 'Action',
-          field: 'Action',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        }
+        // {
+        //   label: 'Action',
+        //   field: 'Action',
+        //   sort: 'asc',
+        //   width: 75,
+        //   height: 50
+        // }
       ],
       rows: Sales
     };
     return (
       <div className="animated fadeIn">
-        <div>
-          <Row>
-            <button className="btn btn-primary" onClick={() => generatePDF(reportTickets)}>
-              Generate report
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => generatePDFMonthly(reportTicketsMonthly)}
-            >
-              Last 30 days report
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => generatePDFWeekly(reportTicketsWeekly)}
-            >
-              Last 7 days report
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => generatePDFDaily(reportTicketsDaily)}
-            >
-              Last 24 hours report
-            </button>
-          </Row>
-        </div>
+        <button className="btn btn-primary" onClick={() => generatePDF(reportTickets)}>
+          Generate report
+        </button>
         <Col>
-          <SalesPerWarehouse />
           <NotificationContainer />
           {/* <CardHeader>
               <i className="fa fa-suitcase"></i> Products
             </CardHeader> */}
-          <div className="container-fluid" style={{ width: 'auto', fontSize: '10px' }}>
+          <div className="container-fluid" style={{ width: '100%', fontSize: '10px' }}>
             <MDBDataTable
               small
               scrollY
               fontSize="2px"
-              width="100%"
               data={data}
               responsive
               bordered
@@ -345,10 +270,10 @@ class SalesMain extends Component {
             />
           </div>
         </Col>
-        {/* <SalesTickets tickets={this.state.sales} /> */}
+        <SalesTickets tickets={this.state.sales} />
       </div>
     );
   }
 }
 
-export default SalesMain;
+export default SalesDaily;

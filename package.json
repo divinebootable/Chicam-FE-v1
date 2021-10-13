@@ -55,6 +55,8 @@
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "history": "^5.0.0",
+    "jspdf": "^2.4.0",
+    "jspdf-autotable": "^3.5.20",
     "lodash": "^4.17.21",
     "mdbreact": "^5.1.0",
     "numeral": "^2.0.6",

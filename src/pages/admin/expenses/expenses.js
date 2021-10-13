@@ -22,6 +22,7 @@ import AddExpense from './addExpense';
 import UpdateExpense from './updateExpense';
 import api from '../../../services';
 import axios from 'axios';
+import generatePDF from './reportGenerator';
 
 class Expense extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class Expense extends Component {
     axios
       .get(api.ALLEXPENSES)
       .then((res) => {
-        console.log(res);
+        console.log('expense' + res);
         this.setState({ expense: res.data });
       })
       .catch((err) => console.log(err));
@@ -53,12 +54,16 @@ class Expense extends Component {
     this.showAllExpenseById();
   };
   render() {
+    const generalReport = this.state.expense.filter((value) => value.is_delete === false);
     const Expenses = (this.state.expense || []).map((expense, index) => {
+      const time = expense.created_on; // get only date
+      const created = time.split('T'); // get only date
       return {
         Expense: expense.expense,
         Amount: expense.amount,
         Warehouse: expense.warehouse,
         Username: expense.username,
+        Time: created[0],
         Action: (
           <div>
             <UpdateExpense expenses={expense} renderExpense={this.onRenderExpense} />
@@ -104,6 +109,13 @@ class Expense extends Component {
           height: 50
         },
         {
+          label: 'Time',
+          field: 'Time',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
           label: 'Action',
           field: 'Action',
           sort: 'asc',
@@ -114,9 +126,12 @@ class Expense extends Component {
     };
     return (
       <div className="animated fadeIn">
-        <Col sm xs="12" className=" mt-3 mb-3">
+        <Row className="ml-5">
+          <button className="btn btn-primary" onClick={() => generatePDF(generalReport)}>
+            Generate report
+          </button>
           <AddExpense renderExpense={this.onRenderExpense} />
-        </Col>
+        </Row>
         <Col>
           <div className="container-fluid" style={{ width: '80%', fontSize: '10px' }}>
             <MDBDataTable

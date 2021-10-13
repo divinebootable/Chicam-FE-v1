@@ -17,6 +17,8 @@ import 'react-notifications/lib/notifications.css';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import getProducts from '../controller/productController';
 // import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const mystyle = {
   height: '30px',
@@ -33,6 +35,7 @@ class AddSales extends Component {
       quantity: '',
       product: '',
       users: '',
+      sales_price: '',
       products: [],
       users: [],
       currentQuantity: []
@@ -91,36 +94,25 @@ class AddSales extends Component {
     const content = {
       customer_name: this.state.customer_name,
       customer_phone: this.state.customer_phone,
-      users: users,
+      users: parseInt(users),
       customer_address: this.state.customer_address,
-      quantity: this.state.quantity,
-      product: this.state.product
+      quantity: parseInt(this.state.quantity),
+      product: parseInt(this.state.product),
+      sales_price: parseInt(this.state.sales_price)
     };
-
-    if (parseInt(content.quantity) <= parseInt(this.state.currentQuantity)) {
-      axios
-        .post(api.ADDSALES, content)
-        .then((res) => {
-          this.setState({
-            customer_name: '',
-            customer_phone: '',
-            customer_address: '',
-            quantity: '',
-            product: '',
-            users: ''
-          });
+    axios
+      .post(api.ADDSALES, content)
+      .then((res) => {
+        if (res.status === 200) {
           NotificationManager.success('New Sales added!', 'Successful!', 8000);
-        })
-        .catch((error) => {
-          NotificationManager.error(
-            'Network error!please make sure you are connected.',
-            'Error!',
-            8000
-          );
-        });
-    } else {
-      alert('Insufficient products');
-    }
+        } 
+      })
+      .catch((error) => {
+       confirmAlert({
+            title: 'Insufficient Products',
+            message: 'Sorry you dont have enough quantity for this sale.'
+          });
+      });
   };
 
   render() {
@@ -222,6 +214,22 @@ class AddSales extends Component {
                   ))}
                   ;
                 </Input>
+              </FormGroup>
+            </Col>
+            <Col md={3}>
+              <FormGroup>
+                <Label for="exampleZip">
+                  <span style={mystyle}>Sales Price</span>
+                </Label>
+                <Input
+                  style={mystyle}
+                  placeholder="Sales Price"
+                  type="number"
+                  onChange={this.handleChange}
+                  name="sales_price"
+                  id="sales_price"
+                  required
+                />
               </FormGroup>
             </Col>
 

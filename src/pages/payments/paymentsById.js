@@ -23,16 +23,16 @@ import axios from 'axios';
 
 const path = require('path');
 
-class SalesBYId extends Component {
+class PaymentById extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sales: []
+      payments: []
     };
-    this.showAllSales();
+    this.showAllPayments();
   }
 
-  showAllSales = () => {
+  showAllPayments = () => {
     const users = localStorage.getItem('auth');
     // const config = {
     //     headers: {
@@ -40,10 +40,10 @@ class SalesBYId extends Component {
     //     }
     // };
     axios
-      .get(api.ALLSALESBYID + `/${users}`)
+      .get(api.ALLPAYMENTSBYID + `/${users}`)
       .then((res) => {
-        console.log("sales by id" + res);
-        this.setState({ sales: res.data });
+        console.log('sales by id' + res);
+        this.setState({ payments: res.data });
       })
       .catch((error) => {
         console.log(error);
@@ -56,25 +56,22 @@ class SalesBYId extends Component {
   //   this.showAllProducts();
   // };
   render() {
-    const Sales = (this.state.sales || []).map((sale, index) => {
-      const time = sale.created_on; // get only date
+    const Payments = (this.state.sales || []).map((payment, index) => {
+      const time = payment.created_on; // get only date
       const created = time.split('T'); // get only date
       return {
-        Customer: sale.customer_name,
-        Phone: sale.customer_phone,
-        Address: sale.customer_address,
-        Quantity: sale.quantity,
-        Brand: sale.brand_name,
-        Vehicle: sale.vehicle_name,
-        Profile: sale.profile_name,
-        Category: sale.category,
-        Status: !sale.sales_status ? (
-          <MDBIcon icon="spinner" className=" red-text mr-3 ml-auto" size="1x" />
-        ) : (
-          <MDBIcon icon="check" className=" green-text mr-3 ml-auto" size="1x" />
-        ),
-        Product: sale.product_id,
-        SP: sale.sales_price,
+        ID: payment.payment_id,
+        Customer: payment.customer_name,
+        Phone: payment.customer_phone,
+        Amount_Paid: payment.amount_paid,
+        SP: payment.sales_price,
+        Status:
+          payment.salesprice === payment.amount_paid ? (
+            <MDBIcon icon="check" className=" green-text mr-3 ml-auto" size="1x" />
+          ) : (
+            <MDBIcon icon="spinner" className=" red-text mr-3 ml-auto" size="1x" />
+          ),
+        Pending_Amount: parseInt(payment.sales_price) - parseInt(payment.amount_paid),
         Date: created[0],
         Action: (
           <>
@@ -93,11 +90,7 @@ class SalesBYId extends Component {
             </Col> */}
 
             <Col>
-              <MDBIcon
-                icon="print"
-                size="1x"
-                className=" green-text mr-3 ml-auto"
-              />
+              <MDBIcon icon="print" size="1x" className=" green-text mr-3 ml-auto" />
             </Col>
           </>
         )
@@ -106,6 +99,13 @@ class SalesBYId extends Component {
 
     const data = {
       columns: [
+        {
+          label: 'ID',
+          field: 'ID',
+          sort: 'asc',
+          width: 45,
+          height: 50
+        },
         {
           label: 'Customer',
           field: 'Customer',
@@ -121,57 +121,8 @@ class SalesBYId extends Component {
           height: 50
         },
         {
-          label: 'Address',
-          field: 'Address',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Quantity',
-          field: 'Quantity',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Brand',
-          field: 'Brand',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Vehicle',
-          field: 'Vehicle',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Profile',
-          field: 'Profile',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Category',
-          field: 'Category',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Status',
-          field: 'Status',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Product',
-          field: 'Product',
+          label: 'Amount Paid',
+          field: 'Amount_Paid',
           sort: 'asc',
           width: 75,
           height: 50
@@ -184,26 +135,26 @@ class SalesBYId extends Component {
           height: 50
         },
         {
+          label: 'Status',
+          field: 'Status',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
+          label: 'Pending Amount',
+          field: 'Pending_Amount',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
           label: 'Date',
           field: 'Date',
           sort: 'asc',
           width: 75,
           height: 50
         },
-        // {
-        //   label: 'Quantity',
-        //   field: 'Quantity',
-        //   sort: 'asc',
-        //   width: 75,
-        //   height: 50
-        // },
-        // {
-        //   label: 'Timestamp',
-        //   field: 'Timestamp',
-        //   sort: 'asc',
-        //   width: 75,
-        //   height: 50
-        // },
         {
           label: 'Action',
           field: 'Action',
@@ -212,7 +163,7 @@ class SalesBYId extends Component {
           height: 50
         }
       ],
-      rows: Sales
+      rows: Payments
     };
     return (
       <div className="animated fadeIn">
@@ -242,4 +193,4 @@ class SalesBYId extends Component {
   }
 }
 
-export default SalesBYId;
+export default PaymentById;
