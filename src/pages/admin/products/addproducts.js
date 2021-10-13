@@ -36,7 +36,7 @@ class AddProduct extends Component {
       quantity: '',
       category: '',
       brand: '',
-      accounts: '',
+      account: '',
       profile: '',
       vehicle: '',
       sampleFile: '',
@@ -48,7 +48,7 @@ class AddProduct extends Component {
       selectedFile: null
     };
 
-    this.toggle = this.toggle.bind(this);
+    // this.toggle = this.toggle.bind(this);
     this.getAllBrands();
     this.getAllProfiles();
     this.getAllCtegories();
@@ -148,7 +148,15 @@ class AddProduct extends Component {
 
   toggle() {
     this.setState({
-      modal: !this.state.modal
+      size: '',
+      price: '',
+      quantity: '',
+      category: '',
+      brand: '',
+      account: '',
+      profile: '',
+      vehicle: '',
+      sampleFile: ''
     });
   }
 
@@ -159,7 +167,7 @@ class AddProduct extends Component {
     content.append('price', this.state.price);
     content.append('quantity', this.state.quantity);
     content.append('category', this.state.category);
-    content.append('users', this.state.accounts);
+    content.append('users', this.state.account);
     content.append('brand', this.state.brand);
     content.append('profile', this.state.profile);
     content.append('vehicle', this.state.vehicle);
@@ -167,25 +175,12 @@ class AddProduct extends Component {
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     };
-    // for (let value of content.values()) {
-    //   console.log(value);
-    // }
-
     axios
       .post(api.ADDPRODUCT, content)
       .then((res) => {
-        this.setState({
-          size: '',
-          price: '',
-          quantity: '',
-          category: '',
-          brand: '',
-          accounts: '',
-          profile: '',
-          vehicle: '',
-          sampleFile: ''
-        });
-        NotificationManager.success('New Product added!', 'Successful!', 8000);
+        if (res.status === 200) {
+          NotificationManager.success('New Product added!', 'Successful!', 8000);
+        }
       })
       .catch((error) => {
         NotificationManager.error(
@@ -362,8 +357,8 @@ class AddProduct extends Component {
                   placeholder="Warehouse"
                   type="select"
                   onChange={this.handleChange}
-                  name="accounts"
-                  id="accounts"
+                  name="account"
+                  id="account"
                   required
                 >
                   <option>select warehouse</option>
