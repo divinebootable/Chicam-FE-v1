@@ -42,7 +42,7 @@ class SalesBYId extends Component {
     axios
       .get(api.ALLSALESBYID + `/${users}`)
       .then((res) => {
-        console.log("sales by id" + res);
+        console.log('sales by id' + res);
         this.setState({ sales: res.data });
       })
       .catch((error) => {
@@ -62,11 +62,9 @@ class SalesBYId extends Component {
       return {
         Customer: sale.customer_name,
         Phone: sale.customer_phone,
-        Address: sale.customer_address,
+        //Address: sale.customer_address,
         Quantity: sale.quantity,
         Brand: sale.brand_name,
-        Vehicle: sale.vehicle_name,
-        Profile: sale.profile_name,
         Category: sale.category,
         Status: !sale.sales_status ? (
           <MDBIcon icon="spinner" className=" red-text mr-3 ml-auto" size="1x" />
@@ -74,6 +72,8 @@ class SalesBYId extends Component {
           <MDBIcon icon="check" className=" green-text mr-3 ml-auto" size="1x" />
         ),
         Product: sale.product_id,
+        ProductName: sale.product_name,
+        ProductCode: sale.code,
         SP: sale.sales_price,
         Date: created[0],
         Action: (
@@ -93,11 +93,7 @@ class SalesBYId extends Component {
             </Col> */}
 
             <Col>
-              <MDBIcon
-                icon="print"
-                size="1x"
-                className=" green-text mr-3 ml-auto"
-              />
+              <MDBIcon icon="print" size="1x" className=" green-text mr-3 ml-auto" />
             </Col>
           </>
         )
@@ -106,6 +102,20 @@ class SalesBYId extends Component {
 
     const data = {
       columns: [
+        {
+          label: 'ProductName',
+          field: 'ProductName',
+          sort: 'asc',
+          width: 45,
+          height: 50
+        },
+        {
+          label: 'ProductCode',
+          field: 'ProductCode',
+          sort: 'asc',
+          width: 45,
+          height: 50
+        },
         {
           label: 'Customer',
           field: 'Customer',
@@ -121,13 +131,6 @@ class SalesBYId extends Component {
           height: 50
         },
         {
-          label: 'Address',
-          field: 'Address',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
           label: 'Quantity',
           field: 'Quantity',
           sort: 'asc',
@@ -137,20 +140,6 @@ class SalesBYId extends Component {
         {
           label: 'Brand',
           field: 'Brand',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Vehicle',
-          field: 'Vehicle',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Profile',
-          field: 'Profile',
           sort: 'asc',
           width: 75,
           height: 50

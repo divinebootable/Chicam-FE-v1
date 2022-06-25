@@ -40,6 +40,8 @@ class UpdateProduct extends Component {
     this.state = {
       modal: false,
       id: this.props.products.product_id,
+      name: this.props.products.product_name,
+      code: this.props.products.code,
       size: this.props.products.size,
       price: this.props.products.price,
       quantity: this.props.products.quantity,
@@ -152,15 +154,14 @@ class UpdateProduct extends Component {
     e.preventDefault();
     const content = new FormData();
     content.append('product_id', this.state.id);
+    content.append('product_name', this.state.name);
+    content.append('code', this.state.code);
     content.append('size', this.state.size);
     content.append('price', this.state.price);
     content.append('quantity', this.state.quantity);
     content.append('category', this.state.category);
     content.set('users', users);
     content.append('brand', this.state.brand);
-    content.append('profile', this.state.profile);
-    content.append('vehicle', this.state.vehicle);
-    content.append('sampleFile', this.state.selectedFile, this.state.selectedFile.name);
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     };
@@ -172,6 +173,8 @@ class UpdateProduct extends Component {
       .post(api.ADDPRODUCT, content)
       .then((res) => {
         this.setState({
+          product_name: '',
+          code: '',
           size: '',
           price: '',
           quantity: '',
@@ -208,6 +211,40 @@ class UpdateProduct extends Component {
             <ModalBody>
               <NotificationContainer />
               <Row form>
+                <Col md={3}>
+                  <FormGroup>
+                    <Label for="exampleZip">
+                      <span style={mystyle}>Product Name</span>
+                    </Label>
+                    <Input
+                      style={mystyle}
+                      placeholder="Product Name"
+                      type="text"
+                      value={this.state.name}
+                      onChange={this.handleChange}
+                      name="name"
+                      id="size"
+                      required
+                    />
+                  </FormGroup>
+                </Col>
+                <Col md={3}>
+                  <FormGroup>
+                    <Label for="exampleZip">
+                      <span style={mystyle}>Code</span>
+                    </Label>
+                    <Input
+                      style={mystyle}
+                      placeholder="Size"
+                      type="text"
+                      value={this.state.code}
+                      onChange={this.handleChange}
+                      name="code"
+                      id="size"
+                      required
+                    />
+                  </FormGroup>
+                </Col>
                 <Col md={3}>
                   <FormGroup>
                     <Label for="exampleZip">

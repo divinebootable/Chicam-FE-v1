@@ -18,7 +18,7 @@ const sidebarConfig = [
     icon: getIcon(pieChart2Fill)
   },
   {
-    title: 'warehouses',
+    title: 'POS',
     path: '/dashboard/accounts',
     icon: getIcon(peopleFill)
   },
@@ -35,17 +35,17 @@ const sidebarConfig = [
         title: 'Manage Brands',
         path: '/dashboard/brand',
         icon: getIcon(shoppingBagFill)
-      },
-      {
-        title: 'Manage Profiles',
-        path: '/dashboard/profile',
-        icon: getIcon(shoppingBagFill)
-      },
-      {
-        title: 'Manage Vehicle',
-        path: '/dashboard/vehicle',
-        icon: getIcon(shoppingBagFill)
       }
+      // {
+      //   title: 'Manage Profiles',
+      //   path: '/dashboard/profile',
+      //   icon: getIcon(shoppingBagFill)
+      // },
+      // {
+      //   title: 'Manage Vehicle',
+      //   path: '/dashboard/vehicle',
+      //   icon: getIcon(shoppingBagFill)
+      // }
     ]
   },
   {
@@ -80,23 +80,23 @@ const sidebarConfig = [
       //   icon: getIcon(fileTextFill)
       // }
     ]
-  },
-  {
-    title: 'manage transfer',
-    icon: getIcon(fileTextFill),
-    children: [
-      {
-        title: 'transfer in',
-        path: '/dashboard/blog',
-        icon: getIcon(fileTextFill)
-      },
-      {
-        title: 'transfer out',
-        path: '/dashboard/blog',
-        icon: getIcon(fileTextFill)
-      }
-    ]
   }
+  // {
+  //   title: 'manage transfer',
+  //   icon: getIcon(fileTextFill),
+  //   children: [
+  //     {
+  //       title: 'transfer in',
+  //       path: '/dashboard/blog',
+  //       icon: getIcon(fileTextFill)
+  //     },
+  //     {
+  //       title: 'transfer out',
+  //       path: '/dashboard/blog',
+  //       icon: getIcon(fileTextFill)
+  //     }
+  //   ]
+  // }
   // {
   //   title: 'login',
   //   path: '/login',

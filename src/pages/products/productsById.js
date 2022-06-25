@@ -59,10 +59,10 @@ class Product extends Component {
       const created = time.split('T'); // get only date
       return {
         ID: product.product_id,
+        Name: product.product_name,
+        Code: product.code,
         Category: product.category,
         Brand: product.brand_name,
-        Profile: product.profile_name,
-        Vehicle: product.vehicle_name,
         Size: product.size,
         Price: product.price,
         Quantity: product.quantity,
@@ -111,6 +111,20 @@ class Product extends Component {
           height: 50
         },
         {
+          label: 'Name',
+          field: 'Name',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
+          label: 'Code',
+          field: 'Code',
+          sort: 'asc',
+          width: 75,
+          height: 50
+        },
+        {
           label: 'Category',
           field: 'Category',
           sort: 'asc',
@@ -120,20 +134,6 @@ class Product extends Component {
         {
           label: 'Brand',
           field: 'Brand',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Profile',
-          field: 'Profile',
-          sort: 'asc',
-          width: 75,
-          height: 50
-        },
-        {
-          label: 'Vehicle',
-          field: 'Vehicle',
           sort: 'asc',
           width: 75,
           height: 50

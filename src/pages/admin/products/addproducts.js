@@ -31,6 +31,8 @@ class AddProduct extends Component {
     super(props);
     this.state = {
       modal: false,
+      product_name: '',
+      code: '',
       size: '',
       price: '',
       quantity: '',
@@ -148,6 +150,8 @@ class AddProduct extends Component {
 
   toggle() {
     this.setState({
+      product_name: '',
+      code: '',
       size: '',
       price: '',
       quantity: '',
@@ -163,15 +167,17 @@ class AddProduct extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const content = new FormData();
+    content.append('product_name', this.state.product_name);
+    content.append('code', this.state.code);
     content.append('size', this.state.size);
     content.append('price', this.state.price);
     content.append('quantity', this.state.quantity);
     content.append('category', this.state.category);
     content.append('users', this.state.account);
     content.append('brand', this.state.brand);
-    content.append('profile', this.state.profile);
-    content.append('vehicle', this.state.vehicle);
-    content.append('sampleFile', this.state.selectedFile, this.state.selectedFile.name);
+    // content.append('profile', this.state.profile);
+    // content.append('vehicle', this.state.vehicle);
+    // content.append('sampleFile', this.state.selectedFile, this.state.selectedFile.name);
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     };
@@ -201,6 +207,38 @@ class AddProduct extends Component {
           </div>
 
           <Row form>
+            <Col md={3}>
+              <FormGroup>
+                <Label for="exampleZip">
+                  <span style={mystyle}>Product Name</span>
+                </Label>
+                <Input
+                  style={mystyle}
+                  placeholder="Name"
+                  type="text"
+                  onChange={this.handleChange}
+                  name="product_name"
+                  id="product name"
+                  required
+                />
+              </FormGroup>
+            </Col>
+            <Col md={3}>
+              <FormGroup>
+                <Label for="exampleZip">
+                  <span style={mystyle}>Product Code</span>
+                </Label>
+                <Input
+                  style={mystyle}
+                  placeholder="Code"
+                  type="text"
+                  onChange={this.handleChange}
+                  name="code"
+                  id="code"
+                  required
+                />
+              </FormGroup>
+            </Col>
             <Col md={3}>
               <FormGroup>
                 <Label for="exampleZip">
@@ -300,7 +338,7 @@ class AddProduct extends Component {
                 </Input>
               </FormGroup>
             </Col>
-            <Col md={3}>
+            {/* <Col md={3}>
               <FormGroup>
                 <Label for="exampleZip">
                   <span style={mystyle}>Profile</span>
@@ -346,11 +384,11 @@ class AddProduct extends Component {
                   ))}
                 </Input>
               </FormGroup>
-            </Col>
+            </Col> */}
             <Col md={3}>
               <FormGroup>
                 <Label for="exampleCity">
-                  <span style={mystyle}>Warehouse </span>
+                  <span style={mystyle}>POS </span>
                 </Label>
                 <Input
                   style={mystyle}
@@ -371,7 +409,7 @@ class AddProduct extends Component {
                 </Input>
               </FormGroup>
             </Col>
-            <Col md={2}>
+            {/* <Col md={2}>
               <FormGroup>
                 <Label for="FileUplaod">
                   <span style={mystyle}>Image Upload</span>
@@ -385,7 +423,7 @@ class AddProduct extends Component {
                   id="FileUplaod"
                 />
               </FormGroup>
-            </Col>
+            </Col> */}
             <div className="w-100">
               <hr />
             </div>

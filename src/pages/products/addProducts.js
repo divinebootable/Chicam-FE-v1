@@ -31,6 +31,8 @@ class AddProduct extends Component {
     super(props);
     this.state = {
       modal: false,
+      product_name: '',
+      code: '',
       size: '',
       price: '',
       quantity: '',
@@ -142,15 +144,17 @@ class AddProduct extends Component {
     let users = this.getUser();
     e.preventDefault();
     const content = new FormData();
+    content.append('product_name', this.state.product_name);
+    content.append('code', this.state.code);
     content.append('size', this.state.size);
     content.append('price', this.state.price);
     content.append('quantity', this.state.quantity);
     content.append('category', this.state.category);
     content.set('users', users);
     content.append('brand', this.state.brand);
-    content.append('profile', this.state.profile);
-    content.append('vehicle', this.state.vehicle);
-    content.append('sampleFile', this.state.selectedFile, this.state.selectedFile.name);
+    // content.append('profile', this.state.profile);
+    // content.append('vehicle', this.state.vehicle);
+    // content.append('sampleFile', this.state.selectedFile, this.state.selectedFile.name);
     const config = {
       headers: { 'content-type': 'multipart/form-data' }
     };
@@ -161,18 +165,20 @@ class AddProduct extends Component {
     axios
       .post(api.ADDPRODUCT, content)
       .then((res) => {
-        if(res.status === 200){
+        if (res.status === 200) {
           this.setState({
-          size: '',
-          price: '',
-          quantity: '',
-          category: '',
-          brand: '',
-          profile: '',
-          vehicle: '',
-          sampleFile: ''
-        });
-        NotificationManager.success('New Product added!', 'Successful!', 8000);
+            product_name: '',
+            code: '',
+            size: '',
+            price: '',
+            quantity: '',
+            category: '',
+            brand: '',
+            profile: '',
+            vehicle: '',
+            sampleFile: ''
+          });
+          NotificationManager.success('New Product added!', 'Successful!', 8000);
         }
       })
       .catch((error) => {
@@ -194,6 +200,38 @@ class AddProduct extends Component {
           </div>
 
           <Row form>
+            <Col md={3}>
+              <FormGroup>
+                <Label for="exampleZip">
+                  <span style={mystyle}>Product Name</span>
+                </Label>
+                <Input
+                  style={mystyle}
+                  placeholder="Product Name"
+                  type="text"
+                  onChange={this.handleChange}
+                  name="product_name"
+                  id="product name"
+                  required
+                />
+              </FormGroup>
+            </Col>
+            <Col md={3}>
+              <FormGroup>
+                <Label for="exampleZip">
+                  <span style={mystyle}>Code</span>
+                </Label>
+                <Input
+                  style={mystyle}
+                  placeholder="Size"
+                  type="text"
+                  onChange={this.handleChange}
+                  name="code"
+                  id="code"
+                  required
+                />
+              </FormGroup>
+            </Col>
             <Col md={3}>
               <FormGroup>
                 <Label for="exampleZip">

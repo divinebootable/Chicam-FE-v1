@@ -63,9 +63,9 @@ export default function LoginForm() {
           localStorage.setItem('warehouse', warehouse);
           localStorage.setItem('Username', Username);
           if (res.data.account.token) {
-            window.location.href = 'http://localhost:3000/';
+            window.location.href = '/';
           } else {
-            window.location.href = 'http://localhost:3000/login';
+            window.location.href = '/login';
           }
         })
         .catch((err) => NotificationManager.error('Wrong Credentials.', 'Unauthorized!', 8000));

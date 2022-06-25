@@ -164,7 +164,7 @@ class AddPayments extends Component {
                   required
                 >
                   <option>Select Sales</option>
-                  {this.state.sales.map((fbb, label) => (
+                  {this.state.sale.map((fbb, label) => (
                     <option key={label} value={fbb.label}>
                       {fbb.value}
                     </option>

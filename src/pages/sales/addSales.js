@@ -58,20 +58,7 @@ class AddSales extends Component {
         dataProducts = res.data.map((item) => {
           realQuantity = item.quantity;
           return {
-            value:
-              item.brand_name +
-              '-' +
-              item.size +
-              '-' +
-              item.price +
-              '-' +
-              item.quantity +
-              '-' +
-              item.category +
-              '-' +
-              item.profile_name +
-              '-' +
-              item.vehicle_name,
+            value: item.product_name + '-' + item.code,
             label: item.product_id
           };
         });
@@ -105,13 +92,13 @@ class AddSales extends Component {
       .then((res) => {
         if (res.status === 200) {
           NotificationManager.success('New Sales added!', 'Successful!', 8000);
-        } 
+        }
       })
       .catch((error) => {
-       confirmAlert({
-            title: 'Insufficient Products',
-            message: 'Sorry you dont have enough quantity for this sale.'
-          });
+        confirmAlert({
+          title: 'Insufficient Products',
+          message: 'Sorry you dont have enough quantity for this sale.'
+        });
       });
   };
 

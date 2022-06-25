@@ -30,31 +30,31 @@ const sidebarConfig = [
         title: 'Manage Brands',
         path: '/dashboard/brand',
         icon: getIcon(shoppingBagFill)
-      },
-      {
-        title: 'Manage Profiles',
-        path: '/dashboard/profile',
-        icon: getIcon(shoppingBagFill)
-      },
-      {
-        title: 'Manage Vehicle',
-        path: '/dashboard/vehicle',
-        icon: getIcon(shoppingBagFill)
       }
+      // {
+      //   title: 'Manage Profiles',
+      //   path: '/dashboard/profile',
+      //   icon: getIcon(shoppingBagFill)
+      // },
+      // {
+      //   title: 'Manage Vehicle',
+      //   path: '/dashboard/vehicle',
+      //   icon: getIcon(shoppingBagFill)
+      // }
     ]
   },
-  {
-    title: 'Manage Product',
-    icon: getIcon(shoppingBagFill),
-    children: [
-      { title: 'add products', path: '/dashboard/addproducts', icon: getIcon(shoppingBagFill) },
-      {
-        title: 'product',
-        path: '/dashboard/products',
-        icon: getIcon(shoppingBagFill)
-      }
-    ]
-  },
+  // {
+  //   title: 'Manage Product',
+  //   icon: getIcon(shoppingBagFill),
+  //   children: [
+  //     { title: 'add products', path: '/dashboard/addproducts', icon: getIcon(shoppingBagFill) },
+  //     {
+  //       title: 'product',
+  //       path: '/dashboard/products',
+  //       icon: getIcon(shoppingBagFill)
+  //     }
+  //   ]
+  // },
   {
     title: 'Sales',
     path: '/dashboard/addsales',

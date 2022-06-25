@@ -55,6 +55,8 @@ class ProductDetails extends Component {
       return {
         //ID: product.product_id,
         Warehouse: product.warehouse,
+        Name: product.product_name,
+        Code: product.code,
         Category: product.category,
         Brand: product.brand_name,
         Profile: product.profile_name,
@@ -98,6 +100,20 @@ class ProductDetails extends Component {
 
     const data = {
       columns: [
+        {
+          label: 'Name',
+          field: 'Name',
+          sort: 'asc',
+          width: 45,
+          height: 50
+        },
+        {
+          label: 'Code',
+          field: 'Code',
+          sort: 'asc',
+          width: 45,
+          height: 50
+        },
         {
           label: 'Warehouse',
           field: 'Warehouse',

@@ -53,7 +53,7 @@ class Product extends Component {
       //   const time = product.created_on; // get only date
       //   const created = time.split('T'); // get only date
       return {
-        Warehouse: product.warehouse,
+        POS: product.warehouse,
         Total_Number_Of_Products: product.sum,
         Action: (
           <>
@@ -68,8 +68,8 @@ class Product extends Component {
     const data = {
       columns: [
         {
-          label: 'Warehouse',
-          field: 'Warehouse',
+          label: 'POS',
+          field: 'POS',
           sort: 'asc',
           width: 45,
           height: 50
