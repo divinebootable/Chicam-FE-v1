@@ -17,32 +17,32 @@ const sidebarConfig = [
   //   path: '/dashboard/app',
   //   icon: getIcon(pieChart2Fill)
   // },
-  {
-    title: 'Manager Categories and Brands ...',
-    icon: getIcon(fileTextFill),
-    children: [
-      {
-        title: 'Manage product categories',
-        path: '/dashboard/category',
-        icon: getIcon(shoppingBagFill)
-      },
-      {
-        title: 'Manage Brands',
-        path: '/dashboard/brand',
-        icon: getIcon(shoppingBagFill)
-      }
-      // {
-      //   title: 'Manage Profiles',
-      //   path: '/dashboard/profile',
-      //   icon: getIcon(shoppingBagFill)
-      // },
-      // {
-      //   title: 'Manage Vehicle',
-      //   path: '/dashboard/vehicle',
-      //   icon: getIcon(shoppingBagFill)
-      // }
-    ]
-  },
+  // {
+  //   title: 'Manager Categories and Brands ...',
+  //   icon: getIcon(fileTextFill),
+  //   children: [
+  //     {
+  //       title: 'Manage product categories',
+  //       path: '/dashboard/category',
+  //       icon: getIcon(shoppingBagFill)
+  //     },
+  //     {
+  //       title: 'Manage Brands',
+  //       path: '/dashboard/brand',
+  //       icon: getIcon(shoppingBagFill)
+  //     }
+  //     {
+  //       title: 'Manage Profiles',
+  //       path: '/dashboard/profile',
+  //       icon: getIcon(shoppingBagFill)
+  //     },
+  //     {
+  //       title: 'Manage Vehicle',
+  //       path: '/dashboard/vehicle',
+  //       icon: getIcon(shoppingBagFill)
+  //     }
+  //   ]
+  // },
   // {
   //   title: 'Manage Product',
   //   icon: getIcon(shoppingBagFill),
